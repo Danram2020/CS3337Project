@@ -10,12 +10,10 @@
 {% endblock sidenav%}
 
 {% block content %}
-
   <table class="table table-hover">
       {% if searched %}
-        <h1 align="center">You Searched for {{ searched }}</h1>
+        <h1 align="center">You Searched for {{ book.name }}</h1>
         <br>
-        {% for book in books %}
         <tr>
             <td class="d-none d-md-table-cell">
                 <a href="{% url 'book_detail' book.id %}"> {{ book.name }} </a>
@@ -24,10 +22,10 @@
                 {{ book.username }}
             </td>
         </tr>
-      {% endfor %}
       {% else %}
         <h1 align="center">Invalid search result. Try again.</h1>
       {% endif %}
 
   </table>
+
 {% endblock content %}

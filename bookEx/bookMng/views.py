@@ -104,34 +104,57 @@ def about_us(request):
                   })
 
 
-def book_search(request, name):
-    books = Book.objects.filter(username=request.user)
-    searched = False
+def searchResult(request):
+    # books = Book.objects.filter(username=request.user)
+    # searched = False
+    # if request.method == 'POST':
+    #     for b in books:
+    #         if b.name == name:
+    #             searched = True
+    #             return render(request,
+    #                           'bookMng/searchResult.html',
+    #                           {
+    #                               'item_list': MainMenu.objects.all(),
+    #                               'books': books,
+    #                               'searched': searched,
+    #                               'name': name
+    #                           })
+    #
+    #     form = BookForm(request.POST, request.FILES)
+    #     if form.is_valid():
+    #         # form.save()
+    #         book = form.save(commit=False)
+    #         try:
+    #             book.username = request.user
+    #         except Exception:
+    #             pass
+    #         book.save()
+    #         return HttpResponseRedirect('/searchResult?search=True')
+    # else:
+    #     return HttpResponseRedirect('/searchResult?search=False')
+    book = None
+    books = Book.objects.all()
+    # books = Book.objects.filter(username=request.user)
+    searched = False;
     if request.method == 'POST':
-        for b in books:
-            if b.name == name:
-                searched = True
-                return render(request,
-                              'bookMng/searchResult.html',
-                              {
-                                  'item_list': MainMenu.objects.all(),
-                                  'books': books,
-                                  'searched': searched,
-                                  'name': name
-                              })
+        try:
+            searchValue = request.POST.get("searchvalue")
+            for b in books:
+                if b.name == searchValue:
+                    book = b
+                    searched = True
+                    break
+        except Exception:
+            print("Error occurred")
 
-        form = BookForm(request.POST, request.FILES)
-        if form.is_valid():
-            # form.save()
-            book = form.save(commit=False)
-            try:
-                book.username = request.user
-            except Exception:
-                pass
-            book.save()
-            return HttpResponseRedirect('/searchResult?search=True')
-    else:
-        return HttpResponseRedirect('/searchResult?search=False')
+    return render(request,
+                  'bookMng/searchResult.html',
+                  {
+                      'item_list': MainMenu.objects.all(),
+                      'searched': searched,
+                      'book': book
+                  })
+
 
 
 
