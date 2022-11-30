@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from .models import Book
+from .models import Favourite
 
 
 class BookForm(ModelForm):
@@ -13,3 +14,10 @@ class BookForm(ModelForm):
             'picture',
         ]
 
+
+class FavouriteForm(ModelForm):
+    class Meta:
+        model = Favourite
+        fields = [
+            'book',
+        ]

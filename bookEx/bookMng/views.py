@@ -10,6 +10,7 @@ from .forms import BookForm
 from django.http import HttpResponseRedirect
 
 from .models import Book
+from .models import Favourite
 
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
@@ -71,7 +72,7 @@ def mybooks(request):
                   'bookMng/mybooks.html',
                   {
                       'item_list': MainMenu.objects.all(),
-                      'books': books
+                      'books': books,
                   })
 
 
@@ -104,34 +105,10 @@ def about_us(request):
                   })
 
 
+
+# Search
+
 def searchResult(request):
-    # books = Book.objects.filter(username=request.user)
-    # searched = False
-    # if request.method == 'POST':
-    #     for b in books:
-    #         if b.name == name:
-    #             searched = True
-    #             return render(request,
-    #                           'bookMng/searchResult.html',
-    #                           {
-    #                               'item_list': MainMenu.objects.all(),
-    #                               'books': books,
-    #                               'searched': searched,
-    #                               'name': name
-    #                           })
-    #
-    #     form = BookForm(request.POST, request.FILES)
-    #     if form.is_valid():
-    #         # form.save()
-    #         book = form.save(commit=False)
-    #         try:
-    #             book.username = request.user
-    #         except Exception:
-    #             pass
-    #         book.save()
-    #         return HttpResponseRedirect('/searchResult?search=True')
-    # else:
-    #     return HttpResponseRedirect('/searchResult?search=False')
     book = None
     books = Book.objects.all()
     # books = Book.objects.filter(username=request.user)
@@ -156,6 +133,43 @@ def searchResult(request):
                   })
 
 
+# Favourite
+def book_favourite_list(request):
+    books = Book.objects.filter(favourite=True)
+    return render(request,
+                  'bookMng/favourite.html',
+                  {
+                      'item_list': MainMenu.objects.all(),
+                      'books': books,
+                  })
+
+
+def book_favourite(request, book_id):
+
+    book = Book.objects.get(id=book_id)
+    book.favourite = True
+    book.save()
+
+    return render(request,
+                  'bookMng/book_favourite.html',
+                  {
+                      'item_list': MainMenu.objects.all(),
+                      'book': book
+                  })
+
+
+def book_unfavourite(request, book_id):
+
+    book = Book.objects.get(id=book_id)
+    book.favourite = False;
+    book.save()
+
+    return render(request,
+                  'bookMng/book_favourite.html',
+                  {
+                      'item_list': MainMenu.objects.all(),
+                      'book': book
+                  })
 
 
 class Register(CreateView):

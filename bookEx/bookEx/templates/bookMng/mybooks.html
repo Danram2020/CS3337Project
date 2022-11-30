@@ -28,6 +28,19 @@
                 DELETE
             </a>
         </td>
+            {% if book.favourite == False %}
+                <td>
+                    <a href="{% url 'book_favourite' book.id %}">
+                        Favourite
+                    </a>
+                 </td>
+            {% else %}
+                <td>
+                     <a href="{% url 'book_unfavourite' book.id %}">
+                        Unfavourite
+                    </a>
+                </td>
+            {% endif %}
     </tr>
     {% endfor %}
 </table>
