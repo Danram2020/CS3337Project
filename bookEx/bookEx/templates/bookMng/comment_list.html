@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+   Display Book Page
+{% endblock title %}
+
+{% block sidenav %}
+   {% for item in item_list %}
+     <li>
+         <a href="{{ item.link }}"> {{ item.item }} </a>
+     </li>
+   {% endfor %}
+{% endblock sidenav %}
+{% block content %}
+<h1 align="center"> Comment List: {{ comments.book }} </h1>
+<table class="table table-hover">
+        {% for cm in comments %}
+        <tr>
+            <td class="d-none d-md-table-cell">
+                <a href="{% url 'book_detail' book.id %}"> {{ cm.username }} </a>
+            </td>
+            <td class="d-none d-md-table-cell">
+                {{ cm.comment }}
+            </td>
+             <td class="d-none d-md-table-cell">
+                <form class="form-inline my-2 my-lg-0"  action="{% url 'comment_delete' cm.id %}"  method="post">
+                      <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Delete</button>
+                    {% csrf_token %}
+                </form>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td> <a href="{%  url 'post_comment' book.id %}"> Post New Comment </a></td>
+        </tr>
+</table>
+{% endblock content %}

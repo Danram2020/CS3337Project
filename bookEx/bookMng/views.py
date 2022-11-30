@@ -6,11 +6,12 @@ from django.shortcuts import render
 from .models import MainMenu
 
 from .forms import BookForm
+from .forms import CommentForm
 
 from django.http import HttpResponseRedirect
 
 from .models import Book
-from .models import Favourite
+from .models import Comment
 
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
@@ -105,7 +106,6 @@ def about_us(request):
                   })
 
 
-
 # Search
 
 def searchResult(request):
@@ -145,7 +145,6 @@ def book_favourite_list(request):
 
 
 def book_favourite(request, book_id):
-
     book = Book.objects.get(id=book_id)
     book.favourite = True
     book.save()
@@ -159,7 +158,6 @@ def book_favourite(request, book_id):
 
 
 def book_unfavourite(request, book_id):
-
     book = Book.objects.get(id=book_id)
     book.favourite = False;
     book.save()
@@ -169,6 +167,60 @@ def book_unfavourite(request, book_id):
                   {
                       'item_list': MainMenu.objects.all(),
                       'book': book
+                  })
+
+
+# Comment
+def comment_list(request, book_id):
+    book = Book.objects.get(id=book_id)
+    # name = book.name
+    comments = Comment.objects.filter(book_id=book_id)
+    return render(request,
+                  'bookMng/comment_list.html',
+                  {
+                      'item_list': MainMenu.objects.all(),
+                      'comments': comments,
+                      'book': book
+                  })
+
+
+def post_comment(request, book_id):
+    book = Book.objects.get(id=book_id)
+    submitted = False
+    if request.method == 'POST':
+        form = CommentForm(request.POST, request.FILES)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            try:
+                comment.username = request.user
+                comment.book = book.name
+                comment.book_id = book.id
+            except Exception:
+                pass
+            comment.save()
+            submitted = True
+    else:
+        form = CommentForm()
+        if 'submitted' in request.GET:
+            submitted = True
+
+    return render(request,
+                  'bookMng/postcomment.html',
+                  {
+                      'form': form,
+                      'item_list': MainMenu.objects.all(),
+                      'submitted': submitted,
+                      'book': book
+                  })
+
+
+def delete_comment(request, cm_id):
+    comment = Comment.objects.get(id=cm_id)
+    comment.delete()
+    return render(request,
+                  'bookMng/comment_delete.html',
+                  {
+                      'item_list': MainMenu.objects.all(),
                   })
 
 

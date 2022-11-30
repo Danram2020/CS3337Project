@@ -23,14 +23,21 @@
             {{ book.name }}
         </td>
     </tr>
-        <tr>
+    <tr>
         <td>
           <img src="{% static book.pic_path %}" />
         </td>
     </tr>
-        <tr>
+    <tr>
         <td>
             {{ book.username }}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="{% url 'comment_list' book.id %}">
+                        Comments
+                    </a>
         </td>
     </tr>
 </table>

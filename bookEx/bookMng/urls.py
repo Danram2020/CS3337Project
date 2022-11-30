@@ -21,4 +21,9 @@ urlpatterns = [
     path('book_favourite/<int:book_id>', views.book_favourite, name='book_favourite'),
     path('book_unfavourite/<int:book_id>', views.book_unfavourite, name='book_unfavourite'),
     path('favourite', views.book_favourite_list, name='favourite'),
+
+    # Comment
+    path('comment_list/<int:book_id>',views.comment_list,name='comment_list'),
+    path('post_comment/<int:book_id>', views.post_comment, name='post_comment'),
+    path('comment_delete/<int:cm_id>',views.delete_comment, name='comment_delete')
 ]
