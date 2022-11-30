@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+   Display Book Page
+{% endblock title %}
+
+{% block sidenav %}
+   {% for item in item_list %}
+     <li>
+         <a href="{{ item.link }}"> {{ item.item }} </a>
+     </li>
+   {% endfor %}
+{% endblock sidenav %}
+
+{% block content %}
+<h1> Rating Page </h1>
+{% if submitted %}
+<p> Rating Successfully</p>
+{% else %}
+  <form action="" enctype="multipart/form-data" method="post" novalidate>
+      <table>
+          <tr>
+              <td >
+                  <div class="rating"> <input type="radio" name="rating" value="5" id="5"><label for="5">5</label> <input type="radio" name="rating" value="4" id="4"><label for="4">4</label> <input type="radio" name="rating" value="3" id="3"><label for="3">3</label> <input type="radio" name="rating" value="2" id="2"><label for="2">2</label> <input type="radio" name="rating" value="1" id="1"><label for="1">1</label>
+                </div>
+              </td>
+              <td colspan="2">
+                  <input type="submit" value="Submit">
+              </td>
+          </tr>
+      </table>
+      {% csrf_token %}
+  </form>
+{% endif %}
+
+{% endblock content %}

@@ -25,5 +25,8 @@ urlpatterns = [
     # Comment
     path('comment_list/<int:book_id>',views.comment_list,name='comment_list'),
     path('post_comment/<int:book_id>', views.post_comment, name='post_comment'),
-    path('comment_delete/<int:cm_id>',views.delete_comment, name='comment_delete')
+    path('comment_delete/<int:cm_id>',views.delete_comment, name='comment_delete'),
+
+    # Rating
+    path('post_rating/<int:book_id>',views.post_rating,name='post_rating')
 ]

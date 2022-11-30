@@ -40,6 +40,49 @@
                     </a>
         </td>
     </tr>
+    <tr>
+        <td>
+            <div>
+                <a href="{% url 'post_rating' book.id %}">
+                        Rating
+                    </a>
+            </div>
+            {% if book.rate == 5 %}
+                 <div class="ratings">
+                    <i class="fa fa-star rating-color"></i>
+                    <i class="fa fa-star rating-color"></i>
+                    <i class="fa fa-star rating-color"></i>
+                    <i class="fa fa-star rating-color"></i>
+                    <i class="fa fa-star rating-color"></i>
+                </div>
+                {% elif book.rate == 4 %}
+                <div class="ratings">
+                    <i class="fa fa-star rating-color"></i>
+                    <i class="fa fa-star rating-color"></i>
+                    <i class="fa fa-star rating-color"></i>
+                    <i class="fa fa-star rating-color"></i>
+                </div>
+                 {% elif book.rate == 3 %}
+                <div class="ratings">
+                    <i class="fa fa-star rating-color"></i>
+                    <i class="fa fa-star rating-color"></i>
+                    <i class="fa fa-star rating-color"></i>
+                </div>
+                 {% elif book.rate == 2 %}
+                <div class="ratings">
+                    <i class="fa fa-star rating-color"></i>
+                    <i class="fa fa-star rating-color"></i>
+                </div>
+                 {% elif book.rate == 1 %}
+                    <div class="ratings">
+                        <i class="fa fa-star rating-color"></i>
+                    </div>
+                 {% else %}
+                    <div >
+                        No Rating
+                    </div>
+                {% endif %}
+        </td>
+    </tr>
 </table>
-
 {% endblock content %}

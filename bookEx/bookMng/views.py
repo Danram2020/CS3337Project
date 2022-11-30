@@ -223,6 +223,30 @@ def delete_comment(request, cm_id):
                       'item_list': MainMenu.objects.all(),
                   })
 
+# Rating
+def post_rating(request, book_id):
+    book = Book.objects.get(id=book_id)
+    submitted = False
+    if request.method == 'POST':
+        try:
+            rating = request.POST.get("rating")
+            book.rate = rating
+        except Exception:
+            pass
+        book.save()
+        submitted = True
+    else:
+        if 'submitted' in request.GET:
+            submitted = True
+
+    return render(request,
+                  'bookMng/post_rating.html',
+                  {
+                      'item_list': MainMenu.objects.all(),
+                      'submitted': submitted,
+                      'book': book
+                  })
+# def rating_list(request):
 
 class Register(CreateView):
     template_name = 'registration/register.html'
